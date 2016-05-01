@@ -68,7 +68,7 @@ angular
             })
           },
           profile: function(Users, Auth) {
-            return Auth.$requireAuth().then(function(){
+            return Auth.$requireAuth().then(function(auth){
               return Users.getProfile(auth.uid).$loaded();  
             });
           }
@@ -115,6 +115,21 @@ angular
           },
           channelName: function($stateParams, channels) {
             return '#'+ channels.$getRecord($stateParams.channelId).name;
+          }
+        }
+      })
+      .state('channels.direct', {
+        url: '/{uid}/messages/direct',
+        templateUrl: 'channels/messages.html',
+        controller: 'MessagesCtrl as messagesCtrl',
+        resolve: {
+          messages: function($stateParams, Messages, profile){
+            return Messages.forUsers($stateParams.uid, profile.$id).$loaded();
+          },
+          channelName: function($stateParams, Users){
+            return Users.all.$loaded().then(function(){
+              return '@'+Users.getDisplayName($stateParams.uid);
+            });
           }
         }
       });

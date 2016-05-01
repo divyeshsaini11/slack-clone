@@ -5,8 +5,8 @@ angular.module('angularfireSlackApp')
 		var authCtrl = this;
 
 		authCtrl.user = {
-			email:'',
-			password:''
+			email: '',
+			password: ''
 		};
 
 		authCtrl.login = function () {
